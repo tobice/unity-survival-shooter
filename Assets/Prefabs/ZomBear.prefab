@@ -12,11 +12,11 @@ GameObject:
   - 54: {fileID: 5400000}
   - 136: {fileID: 13600000}
   - 135: {fileID: 13500000}
+  - 82: {fileID: 8200000}
   - 195: {fileID: 19500000}
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
-  - 82: {fileID: 8200000}
   m_Layer: 9
   m_Name: ZomBear
   m_TagString: Untagged
@@ -249,7 +249,7 @@ Animator:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c236aa7ad6dcabe47abc7d2cf903ae71, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7d051e8cfa13bd148af14d52056c8f4a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 340964f59179af3409db7e2caf82cbf3, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -297,9 +297,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94f6618a0da65fa45b24d5105d5d8422, type: 3}
+  m_Script: {fileID: 11500000, guid: fd1f16199c7d39d44b576f6b7c1f4675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenAttacks: .5
+  attackDamage: 10
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -308,7 +310,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9b9d14572410594cb85d40eedfb150c, type: 3}
+  m_Script: {fileID: 11500000, guid: eb39cafb97498424e97f8a993ca524e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 100
@@ -324,11 +326,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e15099f5ee559584089d5851df572def, type: 3}
+  m_Script: {fileID: 11500000, guid: 607561e49d8cf6a458a9dea8b2903e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenAttacks: .5
-  attackDamage: 15
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -2596,7 +2596,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 7d051e8cfa13bd148af14d52056c8f4a, type: 2}
+      objectReference: {fileID: 9100000, guid: 340964f59179af3409db7e2caf82cbf3, type: 2}
     - target: {fileID: 0}
       propertyPath: attackDamage
       value: 15

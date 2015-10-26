@@ -5,7 +5,7 @@ var attackDamage : int = 10;               // The amount of health taken away pe
 private var anim : Animator;                              // Reference to the animator component.
 private var player : GameObject;                          // Reference to the player GameObject.
 private var playerHealth : PlayerHealth;                  // Reference to the player's health.
-// private var enemyHealth : EnemyHealth;                    // Reference to this enemy's health.
+private var enemyHealth : EnemyHealth;                    // Reference to this enemy's health.
 private var playerInRange : boolean;                         // Whether player is within the trigger collider and can be attacked.
 private var timer : float;                                // Timer for counting up to the next attack.
 
@@ -15,7 +15,7 @@ function Awake ()
     // Setting up the references.
     player = GameObject.FindGameObjectWithTag ("Player");
     playerHealth = player.GetComponent (PlayerHealth);
-    // enemyHealth = GetComponent(EnemyHealth);
+    enemyHealth = GetComponent(EnemyHealth);
     anim = GetComponent (Animator);
 }
 
@@ -48,7 +48,7 @@ function Update ()
     timer += Time.deltaTime;
 
     // If the timer exceeds the time between attacks, the player is in range and this enemy is alive...
-    if(timer >= timeBetweenAttacks && playerInRange /* && enemyHealth.currentHealth > 0 */)
+    if(timer >= timeBetweenAttacks && playerInRange && enemyHealth.currentHealth > 0)
     {
         // ... attack.
         Attack ();
