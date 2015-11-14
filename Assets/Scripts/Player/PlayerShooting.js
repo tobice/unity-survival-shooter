@@ -1,5 +1,4 @@
 ﻿var damagePerShot : int = 20;                  // The damage inflicted by each bullet.
-var timeBetweenBullets : float = 0.15f;        // The time between each shot.
 var range : float = 100f;                      // The distance the gun can fire.
 
 private var timer : float;                                    // A timer to determine when to fire.
@@ -11,6 +10,15 @@ private var gunLine : LineRenderer;                           // Reference to th
 private var gunAudio : AudioSource;                           // Reference to the audio source.
 private var gunLight : Light;                                 // Reference to the light component.
 private var effectsDisplayTime : float = 0.2f;                // The proportion of the timeBetweenBullets that the effects will display for.
+
+private var PISTOL = "pistol";
+private var SHOTGUN = "shotgun";
+private var UZI = "uzi";
+private var ROCKETLAUNCHER = "rocketlauncher";
+
+private var currentWeapon = UZI;
+
+private var shotIndex : int = 0;
 
 function Awake ()
 {
@@ -31,17 +39,30 @@ function Update ()
     timer += Time.deltaTime;
 
     // If the Fire1 button is being press and it's time to fire...
-    if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets)
+    if(Input.GetButton ("Fire1") && timer >= GetTimeBetweenBullets())
     {
         // ... shoot the gun.
-        Shoot ();
+        switch (currentWeapon) {
+            case PISTOL: ShootPistol (); break;
+            case SHOTGUN: ShootShotgun (); break;
+            case UZI: ShootUzi (); break;
+        }
     }
 
     // If the timer has exceeded the proportion of timeBetweenBullets that the effects should be displayed for...
-    if(timer >= timeBetweenBullets * effectsDisplayTime)
+    if(timer >=  GetTimeBetweenBullets() * effectsDisplayTime)
     {
         // ... disable the effects.
         DisableEffects ();
+    }
+}
+
+public function GetTimeBetweenBullets() 
+{
+    switch (currentWeapon) {
+        case PISTOL: return 0.25f;
+        case SHOTGUN: return 0.50f;
+        case UZI: return 0.1f;
     }
 }
 
@@ -53,8 +74,28 @@ public function DisableEffects ()
     gunLight.enabled = false;
 }
 
+public function ShootPistol ()
+{
+    PrepareShooting ();
+    ShootOnce (0); 
+}
 
-public function Shoot ()
+public function ShootShotgun ()
+{
+    PrepareShooting ();
+    gunLine.SetVertexCount(6);
+    ShootOnce (0); 
+    ShootOnce (-0.1); 
+    ShootOnce (0.1); 
+}
+
+public function ShootUzi ()
+{
+    PrepareShooting ();
+    ShootOnce (0); 
+}
+
+public function PrepareShooting ()
 {
     // Reset the timer.
     timer = 0f;
@@ -71,11 +112,17 @@ public function Shoot ()
 
     // Enable the line renderer and set it's first position to be the end of the gun.
     gunLine.enabled = true;
-    gunLine.SetPosition (0, transform.position);
+
+    shotIndex = 0;
+}
+
+public function ShootOnce (skew)
+{
+    gunLine.SetPosition (shotIndex * 2, transform.position);
 
     // Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
     shootRay.origin = transform.position;
-    shootRay.direction = transform.forward;
+    shootRay.direction = transform.forward + new Vector3(skew, 0 , 0);
 
     // Perform the raycast against gameobjects on the shootable layer and if it hits something...
     if(Physics.Raycast (shootRay, shootHit, range, shootableMask))
@@ -91,12 +138,14 @@ public function Shoot ()
         }
 
         // Set the second position of the line renderer to the point the raycast hit.
-        gunLine.SetPosition (1, shootHit.point);
+        gunLine.SetPosition (shotIndex * 2 + 1, shootHit.point);
     }
     // If the raycast didn't hit anything on the shootable layer...
     else
     {
         // ... set the second position of the line renderer to the fullest extent of the gun's range.
-        gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
+        gunLine.SetPosition (shotIndex * 2 + 1, shootRay.origin + shootRay.direction * range);
     }
+
+    shotIndex++;
 }
