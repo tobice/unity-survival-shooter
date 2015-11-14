@@ -20,7 +20,7 @@ private var currentWeapon = PISTOL;
 
 private var shotIndex : int = 0;
 
-SwitchWeapon(UZI);
+SwitchWeapon(PISTOL);
 
 function Awake ()
 {
@@ -78,7 +78,7 @@ public function SwitchWeapon(weapon)
 public function GetTimeBetweenBullets() 
 {
     switch (currentWeapon) {
-        case PISTOL: return 0.25f;
+        case PISTOL: return 0.40f;
         case SHOTGUN: return 0.50f;
         case UZI: return 0.1f;
     }
@@ -88,8 +88,8 @@ public function GetDefaultAmmo()
 {
     switch (currentWeapon) {
         case PISTOL: return -1;
-        case SHOTGUN: return 30;
-        case UZI: return 100;
+        case SHOTGUN: return 15;
+        case UZI: return 50;
     }
 }
 
@@ -104,6 +104,7 @@ public function DisableEffects ()
 public function ShootPistol ()
 {
     PrepareShooting ();
+    gunLine.SetVertexCount(2);
     ShootOnce (0); 
 }
 
