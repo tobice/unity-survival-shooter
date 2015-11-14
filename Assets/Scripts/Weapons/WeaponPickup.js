@@ -1,8 +1,8 @@
 ﻿var weaponType : String;
 var timeToRespawn : float;
+var weaponRenderer : Renderer;
 private var player : GameObject;
 private var gunBarrelEnd : GameObject;                          // Reference to the player GameObject.
-private var weaponRenderer : Renderer;
 
 private var timer : float = 0f;
 
@@ -10,7 +10,7 @@ function Awake ()
 {
     player = GameObject.FindGameObjectWithTag ("Player");
     gunBarrelEnd = GameObject.Find("GunBarrelEnd");
-    weaponRenderer = transform.Find("default").GetComponent(Renderer);
+    // weaponRenderer = transform.Find("default").GetComponent(Renderer);
 }
 
 function OnTriggerEnter (other : Collider)

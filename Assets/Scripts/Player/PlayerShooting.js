@@ -13,7 +13,7 @@ private var effectsDisplayTime : float = 0.2f;                // The proportion 
 
 private var PISTOL = "pistol";
 private var SHOTGUN = "shotgun";
-private var UZI = "uzi";
+private var MACHINEGUN = "machinegun";
 private var ROCKETLAUNCHER = "rocketlauncher";
 
 private var currentWeapon = PISTOL;
@@ -48,7 +48,7 @@ function Update ()
         switch (currentWeapon) {
             case PISTOL: ShootPistol (); break;
             case SHOTGUN: ShootShotgun (); break;
-            case UZI: ShootUzi (); break;
+            case MACHINEGUN: ShootMachineGun (); break;
         }
 
         if (currentWeapon != PISTOL) {
@@ -80,7 +80,7 @@ public function GetTimeBetweenBullets()
     switch (currentWeapon) {
         case PISTOL: return 0.40f;
         case SHOTGUN: return 0.50f;
-        case UZI: return 0.1f;
+        case MACHINEGUN: return 0.1f;
     }
 }
 
@@ -88,8 +88,8 @@ public function GetDefaultAmmo()
 {
     switch (currentWeapon) {
         case PISTOL: return -1;
-        case SHOTGUN: return 15;
-        case UZI: return 50;
+        case SHOTGUN: return 30;
+        case MACHINEGUN: return 100;
     }
 }
 
@@ -117,9 +117,10 @@ public function ShootShotgun ()
     ShootOnce (0.1); 
 }
 
-public function ShootUzi ()
+public function ShootMachineGun()
 {
     PrepareShooting ();
+    gunLine.SetVertexCount(2);
     ShootOnce (0); 
 }
 
