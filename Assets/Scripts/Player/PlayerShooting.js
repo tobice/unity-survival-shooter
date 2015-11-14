@@ -16,9 +16,11 @@ private var SHOTGUN = "shotgun";
 private var UZI = "uzi";
 private var ROCKETLAUNCHER = "rocketlauncher";
 
-private var currentWeapon = UZI;
+private var currentWeapon = PISTOL;
 
 private var shotIndex : int = 0;
+
+SwitchWeapon(UZI);
 
 function Awake ()
 {
@@ -30,6 +32,7 @@ function Awake ()
     gunLine = GetComponent (LineRenderer);
     gunAudio = GetComponent (AudioSource);
     gunLight = GetComponent (Light);
+
 }
 
 
@@ -47,6 +50,15 @@ function Update ()
             case SHOTGUN: ShootShotgun (); break;
             case UZI: ShootUzi (); break;
         }
+
+        if (currentWeapon != PISTOL) {
+            AmmoManager.ammo -= 1;
+
+            if (AmmoManager.ammo == 0) {
+                SwitchWeapon(PISTOL);
+            }
+        }
+
     }
 
     // If the timer has exceeded the proportion of timeBetweenBullets that the effects should be displayed for...
@@ -57,12 +69,27 @@ function Update ()
     }
 }
 
+public function SwitchWeapon(weapon)
+{
+    currentWeapon = weapon;
+    AmmoManager.ammo = GetDefaultAmmo();
+}
+
 public function GetTimeBetweenBullets() 
 {
     switch (currentWeapon) {
         case PISTOL: return 0.25f;
         case SHOTGUN: return 0.50f;
         case UZI: return 0.1f;
+    }
+}
+
+public function GetDefaultAmmo() 
+{
+    switch (currentWeapon) {
+        case PISTOL: return -1;
+        case SHOTGUN: return 30;
+        case UZI: return 100;
     }
 }
 
