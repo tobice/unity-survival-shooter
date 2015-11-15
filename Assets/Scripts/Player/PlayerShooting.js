@@ -186,6 +186,7 @@ public function ShootOnce (skew)
 public function ShootBazooka ()
 {
     PrepareShooting ();
+    gunLine.enabled = false;
     var rocket : GameObject = Instantiate (rocket, transform.position, transform.rotation);
     var movement : RocketMovement = rocket.GetComponent(RocketMovement);
     movement.Launch(transform.forward);
