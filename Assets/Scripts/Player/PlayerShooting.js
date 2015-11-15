@@ -1,5 +1,6 @@
 ﻿var damagePerShot : int = 20;                  // The damage inflicted by each bullet.
 var range : float = 100f;                      // The distance the gun can fire.
+var rocket : GameObject;
 
 private var timer : float;                                    // A timer to determine when to fire.
 private var shootRay : Ray;                                   // A ray from the gun end forwards.
@@ -14,7 +15,7 @@ private var effectsDisplayTime : float = 0.2f;                // The proportion 
 private var PISTOL = "pistol";
 private var SHOTGUN = "shotgun";
 private var MACHINEGUN = "machinegun";
-private var ROCKETLAUNCHER = "rocketlauncher";
+private var BAZOOKA = "bazooka";
 
 private var currentWeapon = PISTOL;
 
@@ -49,6 +50,7 @@ function Update ()
             case PISTOL: ShootPistol (); break;
             case SHOTGUN: ShootShotgun (); break;
             case MACHINEGUN: ShootMachineGun (); break;
+            case BAZOOKA: ShootBazooka (); break;
         }
 
         if (currentWeapon != PISTOL) {
@@ -81,6 +83,7 @@ public function GetTimeBetweenBullets()
         case PISTOL: return 0.40f;
         case SHOTGUN: return 0.50f;
         case MACHINEGUN: return 0.1f;
+        case BAZOOKA: return 0.50f;
     }
 }
 
@@ -90,6 +93,7 @@ public function GetDefaultAmmo()
         case PISTOL: return -1;
         case SHOTGUN: return 30;
         case MACHINEGUN: return 100;
+        case BAZOOKA: return 10;
     }
 }
 
@@ -143,9 +147,9 @@ public function PrepareShooting ()
     gunLine.enabled = true;
 
     shotIndex = 0;
-}
+} 
 
-public function ShootOnce (skew)
+public function ShootOnce (skew) 
 {
     gunLine.SetPosition (shotIndex * 2, transform.position);
 
@@ -177,4 +181,12 @@ public function ShootOnce (skew)
     }
 
     shotIndex++;
+}
+
+public function ShootBazooka ()
+{
+    PrepareShooting ();
+    var rocket : GameObject = Instantiate (rocket, transform.position, transform.rotation);
+    var movement : RocketMovement = rocket.GetComponent(RocketMovement);
+    movement.Launch(transform.forward);
 }
